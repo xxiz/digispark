@@ -51,7 +51,7 @@ rubberDigi = {
     "enter": "KEY_ENTER",
     " ": "KEY_SPACEBAR",
     "space": "KEY_SPACEBAR",
-    "escape": "KEY_ESCAPE",
+    "esc": "KEY_ESCAPE",
     "backspace": "KEY_BACKSPACE",
     "tab": "KEY_TAB",
     "capslock": "KEY_CAPS_LOCK",
@@ -232,18 +232,23 @@ def parse_ducky_line(i):
   last_executed_command = o
   return o
 
-parser = argparse.ArgumentParser(description='Converts USB rubber ducky scripts to an DigiSpark arduino script. ', epilog="Quack Quack")
+parser = argparse.ArgumentParser(description='Converts USB rubber ducky scripts to a DigiSpark Arduino script.')
 parser.add_argument('duckyscript', help='Ducky script to convert')
-parser.add_argument('outdirname', help='Output script directory')
 args = parser.parse_args()
 
 infile = open(args.duckyscript)
 print("Input File: " + args.duckyscript)
-outdir = os.getcwd() + "/" + args.outdirname
+
+# Set output directory to 'output' in the current working directory
+outdir = os.path.join(os.getcwd(), "output")
 print("Output Directory: " + outdir)
-if os.path.isdir(outdir) == False:
-    os.mkdir(outdir)
-destpath = outdir + '/' + args.outdirname + '.ino'
+
+# Create the output directory if it does not exist
+if not os.path.isdir(outdir):
+    os.makedirs(outdir)
+
+# Set the destination path for the Arduino script
+destpath = os.path.join(outdir, 'output.ino')
 print("Destination: " + destpath)
 
 dest = open(destpath, 'w')
